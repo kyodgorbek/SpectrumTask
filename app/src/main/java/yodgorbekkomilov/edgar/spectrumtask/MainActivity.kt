@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         call.enqueue(object : Callback<SpectrumResponse> {
             override fun onResponse(call: Call<SpectrumResponse>, response: Response<SpectrumResponse>) {
+                Log.d("Not data showing","Not Showing")
                 if (response.isSuccessful){
                   logo  = response.body()?.get(2)?.logo!!
                   companyName = response?.body()?.get(1)?.company!!
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
 
             override fun onFailure(call: Call<SpectrumResponse>, t: Throwable) {
-               Log.d(TAG, "Exception is occuring")
+               Log.e("Error", t.message)
             }
         })
     }
