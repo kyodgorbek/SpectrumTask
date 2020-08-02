@@ -7,7 +7,7 @@ import yodgorbekkomilov.edgar.spectrumtask.SpectrumResponse
 
 
 interface SpectrumInterface {
-    @GET("api/json/get/Vk-LhK44U")
+    @GET("/15c43d65bc7a989f47f1")
     fun getApi(): Call <SpectrumResponse>
 }
 

@@ -12,7 +12,7 @@ object ServiceBuilder {
 
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://next.json-generator.com/")
+        .baseUrl("https://api.npoint.io")
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
