@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -20,10 +20,10 @@ class MainActivity : AppCompatActivity() {
         val TAG:String="No Data available"
     }
 
-   lateinit var  logo:String
-   lateinit var companyName:String
-    lateinit var companyWebsite:String
-    lateinit var  spectrumResponse: SpectrumResponse
+    var  logo:String? = null
+    var companyName:String? =  null
+     var companyWebsite:String? = null
+     var  spectrumResponse: SpectrumResponse? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,7 +43,9 @@ class MainActivity : AppCompatActivity() {
                         setHasFixedSize(true)
                         progressBar.visibility = View.GONE
                         layoutManager = LinearLayoutManager(this@MainActivity)
-                        adapter = SpectrumAdapter(spectrumResponse,logo,companyName,companyWebsite)
+                        adapter = spectrumResponse?.let { SpectrumAdapter(it,
+                            logo!!, companyName!!, companyWebsite!!
+                        ) }
                     }
                 }
             }
