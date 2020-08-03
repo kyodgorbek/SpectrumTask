@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
                   companyName = response?.body()?.get(1)?.company!!
                   companyWebsite  =  response?.body()?.get(2)?.website!!
 
+                    spectrumResponse = response.body()
+
                     recyclerView.apply {
                         setHasFixedSize(true)
                         progressBar.visibility = View.GONE
