@@ -7,7 +7,7 @@ data class SpectrumResponseItem(
     @SerializedName("about")
     val about: String,
     @SerializedName("company")
-    val company: String,
+    var company: String,
     @SerializedName("_id")
     val id: String,
     @SerializedName("logo")

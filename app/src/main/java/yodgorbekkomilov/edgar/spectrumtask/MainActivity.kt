@@ -1,62 +1,78 @@
 package yodgorbekkomilov.edgar.spectrumtask
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.android.synthetic.main.activity_main.view.*
 import yodgorbekkomilov.edgar.spectrumtask.adapter.SpectrumAdapter
 import yodgorbekkomilov.edgar.spectrumtask.network.ServiceBuilder
 import yodgorbekkomilov.edgar.spectrumtask.network.SpectrumInterface
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
-        val TAG:String="No Data available"
-    }
 
-    var  logo:String? = null
-    var companyName:String? =  null
-     var companyWebsite:String? = null
-     var  spectrumResponse: SpectrumResponse? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val request = ServiceBuilder.buildService(SpectrumInterface::class.java)
-        val call = request.getApi()
 
-        call.enqueue(object : Callback<SpectrumResponse> {
-            override fun onResponse(call: Call<SpectrumResponse>, response: Response<SpectrumResponse>) {
-                Log.d("Not data showing","Not Showing")
-                if (response.isSuccessful){
-                  logo  = response.body()?.get(2)?.logo!!
-                  companyName = response?.body()?.get(1)?.company!!
-                  companyWebsite  =  response?.body()?.get(2)?.website!!
-
-                    spectrumResponse = response.body()
-
-                    recyclerView.apply {
-                        setHasFixedSize(true)
-                        progressBar.visibility = View.GONE
-                        layoutManager = LinearLayoutManager(this@MainActivity)
-                        adapter = spectrumResponse?.let { SpectrumAdapter(it,
-                            logo!!, companyName!!, companyWebsite!!
-                        ) }
-                    }
-                }
-            }
-
-
-            override fun onFailure(call: Call<SpectrumResponse>, t: Throwable) {
-               Log.e("Error", t.message)
-            }
-        })
-    }
+        val compositeDisposable = CompositeDisposable()
+        compositeDisposable.add(
+            ServiceBuilder.buildService(SpectrumInterface::class.java).getApi()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                    { spectrumResponse -> onResponse(spectrumResponse) },
+                    { t -> onFailure(t) })
+        )
 
     }
+
+
+    private fun onFailure(t: Throwable) {
+        Toast.makeText(this, t.message, Toast.LENGTH_SHORT).show()
+    }   //  val call = request.getApi()
+
+
+    private fun onResponse(spectrumResponse: SpectrumResponse) {
+
+        val spectrumAdapter = spectrumResponse?.let {
+            SpectrumAdapter(it)
+        }
+
+        ascendingButton.setOnClickListener {
+            spectrumAdapter.sortAscending()
+        }
+
+        descendingButton.setOnClickListener {
+            spectrumAdapter.sortDescending()
+        }
+        progressBar.visibility = View.GONE
+        recyclerView.apply {
+            setHasFixedSize(true)
+
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = spectrumAdapter
+        }
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
