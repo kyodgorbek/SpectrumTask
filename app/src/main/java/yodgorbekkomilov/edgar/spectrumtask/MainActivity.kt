@@ -2,6 +2,7 @@ package yodgorbekkomilov.edgar.spectrumtask
 
 import android.os.Bundle
 import android.view.View
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,13 +10,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 import yodgorbekkomilov.edgar.spectrumtask.adapter.SpectrumAdapter
 import yodgorbekkomilov.edgar.spectrumtask.network.ServiceBuilder
 import yodgorbekkomilov.edgar.spectrumtask.network.SpectrumInterface
 
 class MainActivity : AppCompatActivity() {
 
+    private var spectrumAdapter: SpectrumAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,26 @@ class MainActivity : AppCompatActivity() {
                     { t -> onFailure(t) })
         )
 
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                spectrumAdapter?.getFilter()?.filter(newText)
+
+                return true
+            }
+        })
+
+        ascendingButton.setOnClickListener {
+            spectrumAdapter?.sortAscending()
+        }
+
+        descendingButton.setOnClickListener {
+            spectrumAdapter?.sortDescending()
+        }
+
     }
 
 
@@ -42,17 +63,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun onResponse(spectrumResponse: SpectrumResponse) {
 
-        val spectrumAdapter = spectrumResponse?.let {
+        spectrumAdapter = spectrumResponse?.let {
             SpectrumAdapter(it)
         }
 
-        ascendingButton.setOnClickListener {
-            spectrumAdapter.sortAscending()
-        }
-
-        descendingButton.setOnClickListener {
-            spectrumAdapter.sortDescending()
-        }
         progressBar.visibility = View.GONE
         recyclerView.apply {
             setHasFixedSize(true)
