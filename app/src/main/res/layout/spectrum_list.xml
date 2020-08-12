@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
+
+
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -27,13 +29,12 @@
             android:layout_marginEnd="11dp"
             android:layout_marginRight="11dp"
             android:padding="4dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toTopOf="@+id/companyWebsite"
             app:layout_constraintEnd_toStartOf="@+id/companyName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/companyWebsite"
@@ -43,7 +44,7 @@
             android:layout_marginLeft="56dp"
             android:layout_marginTop="40dp"
             android:text="Company Website"
-            android:textSize="8sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/companyLogo"
             app:layout_constraintStart_toStartOf="@+id/companyLogo"
             app:layout_constraintTop_toTopOf="parent"
@@ -57,10 +58,13 @@
             android:layout_marginEnd="286dp"
             android:layout_marginRight="286dp"
             android:text="Company Name"
-            android:textSize="8sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/companyLogo"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
