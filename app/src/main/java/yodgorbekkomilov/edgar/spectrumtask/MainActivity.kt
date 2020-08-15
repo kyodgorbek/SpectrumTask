@@ -10,7 +10,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 import yodgorbekkomilov.edgar.spectrumtask.adapter.SpectrumAdapter
 import yodgorbekkomilov.edgar.spectrumtask.network.ServiceBuilder
 import yodgorbekkomilov.edgar.spectrumtask.network.SpectrumInterface
