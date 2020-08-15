@@ -11,7 +11,10 @@ data class Member(
     @SerializedName("_id")
     val id: String,
     @SerializedName("name")
-    val name: Name,
+    val name: Name?,
     @SerializedName("phone")
+
     val phone: String
+
+
 )

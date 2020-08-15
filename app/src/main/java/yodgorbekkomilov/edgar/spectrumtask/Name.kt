@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Name(
     @SerializedName("first")
-    val first: String,
+    val first: String?,
     @SerializedName("last")
-    val last: String
+    val last: String?
 )
