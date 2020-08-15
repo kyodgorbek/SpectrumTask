@@ -1,6 +1,5 @@
 package yodgorbekkomilov.edgar.spectrumtask.network
 
-import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,9 +15,9 @@ object ServiceBuilder {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://api.npoint.io/")
-        .addConverterFactory(ScalarsConverterFactory.create())
+//        .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(client)
         .build()
 
